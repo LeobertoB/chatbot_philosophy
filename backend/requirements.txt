@@ -1,0 +1,8 @@
+fastapi
+pydantic
+dotenv
+langchain
+langchain-openai
+langchain_community
+langserve[all]
+faiss-cpu
