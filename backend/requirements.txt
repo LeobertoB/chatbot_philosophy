@@ -6,3 +6,13 @@ langchain-openai
 langchain_community
 langserve[all]
 faiss-cpu
+langdetect
+google-api-python-client
+google-auth
+google-auth-httplib2
+google-auth-oauthlib
+sqlalchemy
+asyncpg
+greenlet
+alembic
+psycopg2-binary

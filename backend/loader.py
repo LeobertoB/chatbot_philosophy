@@ -1,40 +1,34 @@
-from langchain_classic.document_loaders import TextLoader
+from langchain_community.document_loaders import TextLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_core.documents import Document
-import os
+from drive_loader import CACHE_DIR
+from pathlib import Path
 
 # Load and split
-def load_and_chunk_document():
+def load_and_chunk_documents():
     """
-    Loads the text file and splits it into chunks suitable for embeddings.
-
-    Args:
-        file_path (str): Path to the input text file.
+    Loads all .txt files from CACHE_DIR, adds metadata, splits into chunks.
 
     Returns:
-        List of Document objects: Chunked text pieces, ready for embedding.
+        List of Document objects: Chunked text pieces with metadata.
     """
 
-    file_path = os.path.join(os.path.dirname(__file__), "DostoevskyF-Grand-Inquisitor-excerpt.txt")
+    print("Loading manually from:", CACHE_DIR)
 
-    print("Loading manually from:", file_path)
+    docs = []
+    for file in Path(CACHE_DIR).glob("*.txt"):
+        loader = TextLoader(str(file), encoding="utf-8")
+        raw_docs = loader.load()
 
-    with open(file_path, "r", encoding="utf-8") as f:
-        text = f.read()
+        # Metadata
+        for doc in raw_docs:
+            doc.metadata["source"] = file.name
+            doc.metadata["author"] = "Dostoevsky"
 
-    # Wrap the text in a Document (LangChain expects this)
-    documents = [Document(page_content=text)]
-
-    loader = TextLoader(
-        file_path=file_path, 
-        encoding='utf-8'
-    )
-
-    documents = loader.load()
+        docs.extend(raw_docs)
 
     text_splitter = RecursiveCharacterTextSplitter(
-        chunk_size = 1000,
+        chunk_size = 1000, 
         chunk_overlap = 200
     )
 
-    return text_splitter.split_documents(documents)
+    return text_splitter.split_documents(docs)

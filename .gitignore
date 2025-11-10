@@ -214,3 +214,17 @@ credentials.json
 *.bak
 *.backup
 *.old
+
+# Downloaded files
+data/
+
+# Test files
+/tests
+
+# FAISS index
+faiss_index/
+*.faiss
+*.pkl
+
+# Chat sessions
+chat_sessions/
