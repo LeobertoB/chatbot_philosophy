@@ -21,7 +21,7 @@ app = FastAPI()
 # Allow frontend hosted on Vercel
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["https://dostoevksyaiphilosopher.com"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
